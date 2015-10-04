@@ -1,0 +1,16 @@
+@(error: String)
+
+@main("Upload"){
+
+	<p>@error</p>
+
+	@helper.form(action = routes.Application.save, 'enctype -> "multipart/form-data") {
+    
+    <input type="file" name="image">
+    
+    <p>
+        <input type="submit">
+    </p>
+    
+   }
+}
