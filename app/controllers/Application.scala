@@ -22,11 +22,18 @@ class Application extends Controller {
     request.body.file("image").map { image =>
       import java.io.File
 
+      // ファイルタイプチェック
+      image.contentType match {
+        case Some(s) if Set("image/jpeg", "image/png") contains s => println(s)
+        case _ => Redirect(routes.Application.upload).flashing(
+          "error" -> "File format error"
+         )
+      }
+
       val filename = image.filename
-      val contentType = image.contentType
       val image_url = s"./tmp/$filename"
 
-      image.ref.moveTo(new File("./tmp", filename), true) // 第二引数は上書きするかどうか
+      image.ref.moveTo(new File("./tmp", filename), replace=true)
       Image.create(image_url, request.session.get("user"))
 
       Ok("File uploaded")
