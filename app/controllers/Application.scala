@@ -10,6 +10,8 @@ import play.api.libs.json._
 
 class Application extends Controller {
 
+  val filePath = Play.current.configuration.getString("file.directory")
+
   def index = Action {
     Ok(views.html.index("Your new application is ready."))
   }
@@ -30,10 +32,8 @@ class Application extends Controller {
          )
       }
 
-      val filename = image.filename
-      val image_url = s"./tmp/$filename"
-
-      image.ref.moveTo(new File("./tmp", filename), replace=true)
+      val image_url = filePath.getOrElse("./tmp/") + image.filename
+      image.ref.moveTo(new File(image_url), replace=true)
       Image.create(image_url, request.session.get("user"))
 
       Ok("File uploaded")
