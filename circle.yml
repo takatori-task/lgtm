@@ -3,6 +3,11 @@ machine:
   
   java:
     version: oraclejdk8
+
+  environment:
+    CIRCLE_ENV: test
+    JDBC_DATABASE_URL: "jdbc:mysql://127.0.0.1/circle_test"
+    JDBC_DATABASE_USER: ubuntu
     
 # Collect build artifacts
 general:
