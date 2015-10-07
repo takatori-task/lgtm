@@ -1,0 +1,51 @@
+.dropzone {
+    min-height: 430px;
+    border: 5px dashed #0087F7;
+    background: white;
+    margin: 20px;
+    padding: 50px 50px;
+}
+  
+.octicon-svg {
+    width: 200px;
+    text-align: center;
+}
+
+.upload {
+    text-align: center;
+}
+
+.button {
+	display: inline-block;
+	width: 200px;
+	height: 54px;
+	text-align: center;
+	text-decoration: none;
+	line-height: 50px;
+	outline: none;
+    background-color: #333;
+    border: 2px solid #333;
+	color: #fff;
+}
+.button:hover {
+	background-color: #fff;
+	border-color: #59b1eb;
+	color: #59b1eb;
+    cursor: pointer;
+}
+.button::before,
+.button::after {
+	position: absolute;
+	z-index: -1;
+	display: block;
+	content: '';
+}
+.button,
+.button::before,
+.button::after {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	-webkit-transition: all .3s;
+	transition: all .3s;
+}

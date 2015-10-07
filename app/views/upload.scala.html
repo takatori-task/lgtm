@@ -1,16 +1,22 @@
 @(error: String)
 
 @main("Upload"){
-
+	<div>
 	<p>@error</p>
-
-	@helper.form(action = routes.Application.save, 'enctype -> "multipart/form-data") {
-    
-    <input type="file" name="image">
-    
-    <p>
-        <input type="submit">
-    </p>
-    
-   }
+	<form action="@routes.Application.save", class="dropzone", id="image-dropzone", enctype="multipart/form-data">
+	<div class="dz-message">
+	<img class="octicon-svg" src="@routes.Assets.versioned("lib/octicons/svg/cloud-upload.svg")" />
+	<p>Drop files here or click to upload.</p>
+    </div>
+	</form>
+	<div class="upload">
+	<a id="upload-image" class="button">Upload</a>
+	<div>
+	<div>
 }
+
+
+
+
+
+
