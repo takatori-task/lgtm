@@ -6,7 +6,6 @@ import play.api.data._
 import models.Image
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
-import play.api.libs.json._
 
 class Images extends Controller {
 
@@ -16,7 +15,9 @@ class Images extends Controller {
     Ok(views.html.index("Your new application is ready."))
   }
 
-  def show = TODO
+  def list = TODO
+
+  def show(id: Long) = TODO
 
   def upload = Action { implicit request =>
     Ok(views.html.upload(request.flash.get("error").getOrElse("")))
@@ -38,13 +39,12 @@ class Images extends Controller {
       image.ref.moveTo(new File(image_url), replace=true)
       Image.create(image_url, request.session.get("user"))
 
-      Ok
+      Ok(views.html.index("Your new application is ready."))
 
     }.getOrElse {
-      Redirect(routes.Application.upload).flashing(
+      Redirect(routes.Images.upload).flashing(
         "error" -> "Missing file"
       )
     }
   }
-
 }
