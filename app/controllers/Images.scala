@@ -8,13 +8,15 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.libs.json._
 
-class Application extends Controller {
+class Images extends Controller {
 
   val filePath = Play.current.configuration.getString("file.directory")
 
   def index = Action {
     Ok(views.html.index("Your new application is ready."))
   }
+
+  def show = TODO
 
   def upload = Action { implicit request =>
     Ok(views.html.upload(request.flash.get("error").getOrElse("")))
@@ -27,7 +29,7 @@ class Application extends Controller {
       // ファイルタイプチェック
       image.contentType match {
         case Some(s) if Set("image/jpeg", "image/png") contains s => println(s)
-        case _ => Redirect(routes.Application.upload).flashing(
+        case _ => Redirect(routes.Images.upload).flashing(
           "error" -> "File format error"
          )
       }
@@ -36,7 +38,7 @@ class Application extends Controller {
       image.ref.moveTo(new File(image_url), replace=true)
       Image.create(image_url, request.session.get("user"))
 
-      Ok("File uploaded")
+      Ok
 
     }.getOrElse {
       Redirect(routes.Application.upload).flashing(
