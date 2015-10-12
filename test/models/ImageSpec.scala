@@ -25,4 +25,11 @@ class ImageSpec extends Specification {
       Image.create(image_url, user_id) must throwA[Exception]
     }
   }
+
+  "Image#all" should {
+    "return all images" in new WithApplication {
+      val images = Image.all()
+      images must not be empty
+    }
+  }
 }
