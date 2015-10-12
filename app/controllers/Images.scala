@@ -39,17 +39,19 @@ class Images extends Controller {
       image.ref.moveTo(new File(image_url), replace=true)
 
       // DBに保存
+
       Image.create(image_url, request.session.get("user")) match {
         case Some(i) => Redirect(routes.Images.show(i))
         case _ => Redirect(routes.Images.upload).flashing(
           "error" -> "予期しないデータベース・エラーが発生しました - 指定されたレコードを書き込みできません。"
-         )          
-     }
+        )
+      }
 
-    }.getOrElse {
+    } getOrElse {
       Redirect(routes.Images.upload).flashing(
         "error" -> "Missing file"
       )
     }
   }
+
 }
