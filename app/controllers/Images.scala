@@ -34,12 +34,17 @@ class Images extends Controller {
           "error" -> "File format error"
          )
       }
-
+      // ファイル保存
       val image_url = filePath.getOrElse("./tmp/") + image.filename
       image.ref.moveTo(new File(image_url), replace=true)
-      Image.create(image_url, request.session.get("user"))
 
-      Ok(views.html.index("Your new application is ready."))
+      // DBに保存
+      Image.create(image_url, request.session.get("user")) match {
+        case Some(i) => Redirect(routes.Images.show(i))
+        case _ => Redirect(routes.Images.upload).flashing(
+          "error" -> "予期しないデータベース・エラーが発生しました - 指定されたレコードを書き込みできません。"
+         )          
+     }
 
     }.getOrElse {
       Redirect(routes.Images.upload).flashing(
