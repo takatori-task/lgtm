@@ -20,6 +20,10 @@ object Image {
     }
   }
 
+  def all(): List[Image] = DB.withConnection { implicit c =>
+    SQL("select * from image").as(image *)
+  }
+
   val image = {
     get[Long]("id") ~
     get[String]("image_url") ~

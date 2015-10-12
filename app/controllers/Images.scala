@@ -12,10 +12,12 @@ class Images extends Controller {
   val filePath = Play.current.configuration.getString("file.directory")
 
   def index = Action {
-    Ok(views.html.index("Your new application is ready."))
+    Redirect(routes.Images.list)
   }
 
-  def list = TODO
+  def list = Action { implicit request =>
+    Ok(views.html.index(Image.all()))
+  }
 
   def show(id: Long) = TODO
 
