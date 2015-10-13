@@ -9,8 +9,6 @@ import play.api.Play.current
 
 class Images extends Controller {
 
-  val filePath = Play.current.configuration.getString("file.directory")
-
   def index = Action {
     Redirect(routes.Images.list)
   }
@@ -37,7 +35,7 @@ class Images extends Controller {
          )
       }
       // ファイル保存
-      val image_url = filePath.getOrElse("./tmp/") + image.filename
+      val image_url = Play.current.path.getPath() + "/public/images/upload" +image.filename
       image.ref.moveTo(new File(image_url), replace=true)
 
       // DBに保存
