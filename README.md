@@ -8,7 +8,7 @@ LGTM.in clone
 - todo
 
 ## Features
-
+- uplaod image
 
 ## Requirement
 - Scala 2.11
