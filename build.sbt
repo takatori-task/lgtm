@@ -28,4 +28,4 @@ routesGenerator := InjectedRoutesGenerator
 
 fork in run := true
 
-javaOptions in Test += "-Dconfig.file=conf/test.conf"
+//javaOptions in Test += "-Dconfig.file=conf/test.conf"
