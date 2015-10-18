@@ -7,7 +7,6 @@ import play.api.Play.current
 
 case class Image(id: Long, image_url: String, user_id: Option[String])
 
-
 object Image {
 
   def create(image_url: String, user_id: Option[String]): Option[Long] = {
@@ -20,8 +19,10 @@ object Image {
     }
   }
 
-  def all(): List[Image] = DB.withConnection { implicit c =>
-    SQL("select * from image").as(image *)
+  def all(): List[Image] = {
+    DB.withConnection { implicit c =>
+      SQL("select * from image").as(image *)
+    }
   }
 
   val image = {
