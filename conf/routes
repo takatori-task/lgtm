@@ -11,5 +11,13 @@ GET     /images/:id                 controllers.Images.show(id: Long)
 GET     /upload                     controllers.Images.upload()
 POST    /save                       controllers.Images.save()
 
+# Authoraization
+GET     /signin                     controllers.Users.singin()
+GET     /singout                    controllers.Users.singout()
+
+# OAuth2 Stuff
+GET        /_oauth-callback         controllers.OAuth2.callback(code: Option[String], state: Option[String])
+GET        /_oauth-success          controllers.OAuth2.success()
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
