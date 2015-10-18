@@ -1,3 +1,17 @@
+/*
+ index page
+*/
+
+
+img.thumbnail {
+    height: 300px;
+    widht: 100%;
+}
+
+
+/*
+ upload page
+*/
 .dropzone {
     min-height: 430px;
     border: 5px dashed #0087F7;
@@ -49,3 +63,5 @@
 	-webkit-transition: all .3s;
 	transition: all .3s;
 }
+
+

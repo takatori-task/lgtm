@@ -16,7 +16,8 @@ libraryDependencies ++= Seq(
   "mysql" % "mysql-connector-java" % "5.1.36",
   "org.webjars" %% "webjars-play" % "2.4.0-1",
   "org.webjars.bower" % "dropzone" % "4.0.1",
-  "org.webjars.bower" % "octicons" % "2.2.3"
+  "org.webjars.bower" % "octicons" % "2.2.3",
+  "org.webjars" % "bootstrap" % "3.3.5"
 )
 
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"

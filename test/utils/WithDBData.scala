@@ -26,11 +26,11 @@ abstract class WithDbData(app: Application = FakeApplication()) extends WithAppl
       // testデータ投入
       SQL("""
           INSERT INTO image (image_url, user_id)
-          VALUES ('http://placeimg_1000_180_nature.jpg', 'test'),
-                 ('http://placeimg_300_300_tech.jpg', 'takatori'),
-                 ('http://placeimg_320_180_arch.jpg', NULL),
-                 ('http://placeimg_640_480_any.jpg', NULL),              
-                 ('http://placeimg_200_300_people.jpg', 'test');
+          VALUES ('http://placeimg.com/300/480/any', 'test'),
+                 ('http://placeimg.com/300/300/tech', 'takatori'),
+                 ('http://placeimg.com/320/180/arch', NULL),
+                 ('http://placeimg.com/640/480/any', NULL),              
+                 ('http://placeimg.com/200/300/people', 'test');
           """).execute()
     }
   }

@@ -3,15 +3,18 @@
 @import helper._
 
 @main("LGTM") {
-	<div class="contents">
-	<h1>Images</h1>
-	
-	<ul class="">
-		@images.map { image =>
-			<li>
-			<img src=@image.image_url />
-			</li>
-		}
-	</ul>
+<div class="contents">
+	<div>
+		<div class="row">
+        @images.map { image =>
+	      <div class="col-xs-6 col-md-3">
+			<a hre="#" class="thumbnail">
+			<img src=@image.image_url alt="..." class="thumbnail" onerror="this.src='@routes.Assets.versioned("images/no_image.png")'"/>
+			</a>
+	      </div>
+	    }
+		</div>
 	</div>
+</div>
 }
+
