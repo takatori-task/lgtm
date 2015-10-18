@@ -46,9 +46,9 @@ class ImageSpec extends Specification with appWithTestDatabase {
       val images = Image.all()
       images must not be empty
       images must have size 5
-      images(0).image_url === "http://placeimg_1000_180_nature.jpg"
+      images(0).image_url === "http://placeimg.com/300/480/any"
       images(0).user_id must beSome.which { _  === "test" }
-      images(2).image_url === "http://placeimg_320_180_arch.jpg"
+      images(2).image_url === "http://placeimg.com/320/180/arch"
       images(2).user_id must beNone
     }
   }
