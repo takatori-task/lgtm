@@ -18,7 +18,7 @@ import scalax.file.Path
 import models.Image
 import lgtm.test.util.WithDbData
 
-trait appWithTestDatabase extends {
+trait appWithTestDatabase {
 
   val config = Map(
     "db.default.driver" -> "com.mysql.jdbc.Driver",
