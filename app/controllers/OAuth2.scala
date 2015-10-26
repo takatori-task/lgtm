@@ -36,8 +36,10 @@ class OAuth2 extends Controller {
       WS.url("https://api.github.com/user").
         withHeaders(HeaderNames.AUTHORIZATION -> s"token $authToken").
         get().map { response =>
-          val user = (response.json \ "login").as[String]
-          Redirect(controllers.routes.Images.index)withSession("user" -> user)
+          val user_id = (response.json \ "login").as[String]
+          val name = (response.json \ "name").asOpt[String]
+          val avatar_url = (response.json \"avatar_url").asOpt[String]
+          Redirect(controllers.routes.Users.signup(user_id, name, avatar_url))
         }
     }
   }

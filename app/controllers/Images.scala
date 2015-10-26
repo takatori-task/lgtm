@@ -2,9 +2,11 @@ package controllers
 
 import play.api.Play
 import play.api.mvc.{Action, Controller}
-import models.Image
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+
+import models.Image
+import models.User
 
 class Images extends Controller {
 
@@ -13,13 +15,19 @@ class Images extends Controller {
   }
 
   def list = Action { implicit request =>
-    Ok(views.html.index(Image.all()))
+    Ok(views.html.index(
+      Image.all(),
+      User.select(request.session.get("user_id").getOrElse(""))
+    ))
   }
 
   def show(id: Long) = TODO
 
   def upload = Action { implicit request =>
-    Ok(views.html.upload(request.flash.get("error").getOrElse("")))
+    Ok(views.html.upload(
+      request.flash.get("error").getOrElse(""),
+      User.select(request.session.get("user_id").getOrElse(""))
+    ))
   }
 
   def save = Action(parse.multipartFormData) { implicit request =>

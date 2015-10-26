@@ -11,7 +11,8 @@ import models.User
 
 class Users extends Controller {
 
-  def singin = Action { implicit request =>
+
+  def signin = Action { implicit request =>
 
     // singin済みならtopページへ遷移
     if(request.session.get("user").isEmpty) Redirect(routes.Images.index)
@@ -25,6 +26,12 @@ class Users extends Controller {
     Redirect(redirectUrl).withSession("oauth-state" -> state)
   }
 
-  def singout = TODO
+  def signup(user_id: String, name: Option[String], avatar_url: Option[String]) = Action { implicit request =>
+    // アカウントがなければ作成する
+    if (User.select(user_id).isEmpty)  User.create(user_id, name, avatar_url)
+    Redirect(routes.Images.list).withSession("user_id" -> user_id)
+  }
+
+  def signout = TODO
 
 }

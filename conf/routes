@@ -12,8 +12,9 @@ GET     /upload                     controllers.Images.upload()
 POST    /save                       controllers.Images.save()
 
 # Authoraization
-GET     /signin                     controllers.Users.singin()
-GET     /singout                    controllers.Users.singout()
+GET     /signin                     controllers.Users.signin()
+GET     /signup                     controllers.Users.signup(user_id: String, name: Option[String], avatar_url: Option[String])
+GET     /signout                    controllers.Users.signout()
 
 # OAuth2 Stuff
 GET        /_oauth-callback         controllers.OAuth2.callback(code: Option[String], state: Option[String])
