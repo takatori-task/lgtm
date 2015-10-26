@@ -5,7 +5,7 @@ import anorm.SqlParser._
 import play.api.db._
 import play.api.Play.current
 
-case class User(user_id: String, name: String, avatar_url: Option[String])
+case class User(user_id: String, name: Option[String], avatar_url: Option[String])
 
 object User {
 
@@ -21,7 +21,7 @@ object User {
     }
   }
 
-  def create(user_id: String, name: String, avatar_url: Option[String]): Unit = {
+  def create(user_id: String, name: Option[String], avatar_url: Option[String]): Unit = {
     DB.withConnection { implicit c =>
       SQL("""
           INSERT INTO user (user_id, name, avatar_url)
@@ -36,7 +36,7 @@ object User {
 
   val user = {
     get[String]("user_id") ~
-    get[String]("name") ~
+    get[Option[String]]("name") ~
     get[Option[String]]("avatar_url") map {
       case user_id ~ name ~ avatar_url => User(user_id, name, avatar_url)
     }
