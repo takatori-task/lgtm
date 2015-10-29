@@ -34,6 +34,10 @@ object User {
     }
   }
 
+  def createIfNotExists(user_id: String, name: Option[String], avatar_url: Option[String]): Unit = {
+    if(select(user_id).isEmpty) create(user_id, name, avatar_url)
+  }
+
   val user = {
     get[String]("user_id") ~
     get[Option[String]]("name") ~
