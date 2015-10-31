@@ -31,6 +31,8 @@ class Users extends Controller {
     Redirect(routes.Images.list).withSession("user_id" -> user_id)
   }
 
-  def signout = TODO
+  def signout(user_id: String) = Action { implicit request =>
+    Redirect(routes.Images.list).withSession(request.session - "user_id")
+  }
 
 }
