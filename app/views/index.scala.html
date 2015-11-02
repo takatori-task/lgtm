@@ -1,8 +1,10 @@
-@(images: List[Image])(implicit message: Messages)
+@(images: List[Image], user: Option[User])(implicit message: Messages)
 
 @import helper._
 
 @main("LGTM") {
+	@navbar(user)	
+} {
 <div class="contents">
 	<div>
 		<div class="row">
