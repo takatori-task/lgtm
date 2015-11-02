@@ -24,7 +24,7 @@ object User {
   def create(user_id: String, name: Option[String], avatar_url: Option[String]): Unit = {
     DB.withConnection { implicit c =>
       SQL("""
-          INSERT INTO user (user_id, name, avatar_url)
+          INSERT IGNORE INTO user (user_id, name, avatar_url)
           VALUES ({user_id}, {name}, {avatar_url})
           """)
         .on('user_id -> user_id,
@@ -32,10 +32,6 @@ object User {
             'avatar_url -> avatar_url
       ).executeInsert()
     }
-  }
-
-  def createIfNotExists(user_id: String, name: Option[String], avatar_url: Option[String]): Unit = {
-    if(select(user_id).isEmpty) create(user_id, name, avatar_url)
   }
 
   val user = {

@@ -27,7 +27,7 @@ class Users extends Controller {
 
   def signup(user_id: String, name: Option[String], avatar_url: Option[String]) = Action { implicit request =>
     // アカウントがなければ作成する
-    User.createIfNotExists(user_id, name, avatar_url)
+    User.create(user_id, name, avatar_url)
     Redirect(routes.Images.list).withSession("user_id" -> user_id)
   }
 
