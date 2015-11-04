@@ -34,6 +34,19 @@ object Image {
     }
   }
 
+  def fetch(user_id: String): List[Image] = {
+    DB.withConnection { implicit c =>
+      SQL(
+        """
+        SELECT *
+        FROM image
+        WHERE user_id = {user_id}
+        """)
+        .on('user_id -> user_id)
+        .as(image *)
+    }
+  }
+
   val image = {
     get[Long]("id") ~
     get[String]("image_url") ~
