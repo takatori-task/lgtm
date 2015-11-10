@@ -22,9 +22,10 @@ class Images extends Controller {
   }
 
   def show(id: Long) = Action { implicit request =>
+    val user = User.select(request.session.get("user_id").getOrElse(""))
     Image.select(id) match {
-      case Some(image) => Ok(views.html.image(image))
-      case _ => Ok(views.html.image404())
+      case Some(image) => Ok(views.html.image(image, user))
+      case _ => Ok(views.html.image404(user))
     }
   }
 

@@ -1,5 +1,9 @@
+@(user: Option[User])(implicit message: Messages)
+
 @main("LGTM") {
-<div class="contents">
+	@navbar(user)
+}{
+	<div class="contents">
 	<h1>Not Found</h1>
-</div>	
+    </div>	
 }
