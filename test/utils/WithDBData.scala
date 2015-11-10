@@ -32,12 +32,23 @@ abstract class WithDbData(app: Application = FakeApplication()) extends WithAppl
                  ('http://placeimg.com/640/480/any', NULL),              
                  ('http://placeimg.com/200/300/people', 'test');
           """).execute()
+
+      SQL("""
+          INSERT INTO user (user_id, name, avatar_url)
+          VALUES ('1', 'Misty Engelmann', 'http://placeimg.com/300/480/any'),
+                 ('2', 'Bree Knipe', 'http://placeimg.com/300/300/tech'),
+                 ('3f', NULL, 'http://placeimg.com/320/180/arch'),
+                 ('xx', NULL, NULL),
+                 ('satoshi', 'takatori', 'http://placeimg.com/200/300/people'),
+                 ('0', 'Fonda Gallagher', 'http://placeimg.com/200/300/people');
+          """).execute()
     }
   }
 
   def tearDown() {
     DB.withConnection { implicit c =>
       SQL("TRUNCATE TABLE image").executeUpdate()
+      SQL("delete from user").executeUpdate()
     }
   }
 }

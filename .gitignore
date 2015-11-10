@@ -21,7 +21,7 @@ activator
 activator-launch-1.3.5.jar
 tmp/*
 !.gitkeep
-public/images/upload/
+.envrc
 
 # Mac
 .DS_Store
