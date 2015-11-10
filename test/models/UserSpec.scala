@@ -51,8 +51,12 @@ class UserSpec extends Specification with appWithTestDatabase {
       User.create(user_id, name, avatar_url)
     }
 
-    "idがすでに存在しているならばエラーが発生する" in new WithDbData {
-      User.create("satoshi", Some("takatori"), None) must throwA[Exception]
+    "idが既にに存在しているならば追加しない" in new WithDbData {
+      User.create("satoshi", Some("test"), None)
+      val user = User.select("satoshi")
+      user must beSome
+      user.get.name != "test"
+      user.get.name == "takatori"
     }
   }
 

@@ -59,7 +59,7 @@ abstract class WithDbData(app: Application = FakeApplication()) extends WithAppl
 
   def tearDown() {
     DB.withConnection { implicit c =>
-      SQL("delete from image").executeUpdate()
+      SQL("TRUNCATE TABLE image").executeUpdate()
       SQL("delete from user").executeUpdate()
       SQL("delete from favorite").executeUpdate()
     }
