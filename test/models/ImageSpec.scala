@@ -69,4 +69,18 @@ class ImageSpec extends Specification with appWithTestDatabase {
       images(2).user_id must beNone
     }
   }
+
+  "Image#select" should {
+    "idを指定して一件取得できる" in new WithDbData(app) {
+      val image = Image.select(1)
+      image must beSome
+      image.get.image_url == "http://placeimg.com/300/480/any"
+      image.get.user_id == "test"
+    }
+
+    "idが存在しなければOptionがNoneで返される" in new WithDbData(app) {
+      val image = Image.select(-1)
+      image must beNone
+    }
+  }
 }

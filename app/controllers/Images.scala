@@ -21,7 +21,12 @@ class Images extends Controller {
     ))
   }
 
-  def show(id: Long) = TODO
+  def show(id: Long) = Action { implicit request =>
+    Image.select(id) match {
+      case Some(image) => Ok(views.html.image(image))
+      case _ => Ok(views.html.image404())
+    }
+  }
 
   def upload = Action { implicit request =>
     Ok(views.html.upload(
