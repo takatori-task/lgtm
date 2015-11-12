@@ -25,4 +25,34 @@ object Favorite {
   def unRegister(): Unit = {
 
   }
+
+
+  def select(user_id: String, id: Long): Option[Favorite] = {
+    DB.withConnection { implicit c =>
+      SQL("""
+          SELECT * 
+          FROM favorite  
+          WHERE user_id = {user_id} AND id = {id}
+          """)
+        .on(
+        'user_id -> user_id,
+        'id -> id
+      ).as(favorite.singleOpt) 
+    }
+  }
+
+  def check(user_id: String, id: Long): Boolean = {
+    Favorite.select(user_id, id) match {
+      case Some(x) => true
+      case _ => false
+    }
+  }
+
+  val favorite = {
+    get[String]("user_id") ~
+    get[Long]("id") map {
+      case user_id ~ id => Favorite(user_id, id)
+    }
+  }
+
 }

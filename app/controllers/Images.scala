@@ -25,8 +25,9 @@ class Images extends Controller {
 
   def show(id: Long) = Action { implicit request =>
     val user = User.select(request.session.get("user_id").getOrElse(""))
+    val favorite = Favorite.check(request.session.get("user_id").getOrElse(""), id)
     Image.select(id) match {
-      case Some(image) => Ok(views.html.image(image, user))
+      case Some(image) => Ok(views.html.image(image, user, favorite))
       case _ => Ok(views.html.image404(user))
     }
   }
