@@ -26,6 +26,19 @@ class FavoriteSpec extends Specification with appWithTestDatabase {
     }
   }
 
+  "Favorite#check" should {
+    "ユーザのお気に入りの画像であればTrueが返る" in new WithDbData {
+      val result = Favorite.check("satoshi", 1)
+      result must beTrue
+    }
+
+    "ユーザのお気に入りの画像でなければFalseが返る" in new WithDbData {
+      val result = Favorite.check("satoshi", 2)
+      print(result)
+      result must beFalse
+    }
+  }
+
 
 }
 
