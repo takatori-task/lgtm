@@ -39,6 +39,19 @@ class FavoriteSpec extends Specification with appWithTestDatabase {
     }
   }
 
+  "Favorite#list" should {
+    "ユーザidを指定してお気に入りに登録された画像を取得できる" in new WithDbData {
+      val result = Favorite.list("satoshi")
+      result must not be empty
+      result must have size 2
+      result(0).image_id == 1
+      result(1).image_id == 5
+    }
 
+    "ユーザidが存在しなければ0件取得" in new WithDbData {
+      val result = Favorite.list("sat")
+      result must be empty
+    }
+  }
 }
 
