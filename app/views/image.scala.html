@@ -11,7 +11,7 @@
 		<label for="">Markdown</label>
 		<input type="url" class="form-control" id="image-markdown" value="![@image.id](@image.image_url)" readonly>
 		@if(favorite) {
-			<a href="/unfavorite">unfavorite</a>
+			<a href="/images/@image.id/unfavorite">unfavorite</a>
 		} else {
 			<a href="/images/@image.id/favorite">favorite</a>
 		}
