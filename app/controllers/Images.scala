@@ -63,10 +63,24 @@ class Images extends Controller {
   }
 
   def favorite(id: Long) = Action { implicit request =>
-
     request.session.get("user_id") map { user: String =>
       try{
         Favorite.register(user, id)
+        Redirect(routes.Images.show(id))
+      } catch {
+        case e: IOException => {
+          Redirect(routes.Images.show(id)).flashing("error" -> "ログインしてください")
+        }
+      }
+    } getOrElse {
+      Redirect(routes.Images.show(id)).flashing("error" -> "ログインしてください")
+    }
+  }
+
+  def unfavorite(id: Long) = Action { implicit request =>
+    request.session.get("user_id") map { user: String =>
+      try{
+        Favorite.unRegister(user, id)
         Redirect(routes.Images.show(id))
       } catch {
         case e: IOException => {
