@@ -8,6 +8,8 @@ import play.api.Play.current
 
 import java.util.UUID
 import models.User
+import models.Image
+import models.Favorite
 
 class Users extends Controller {
 
@@ -35,4 +37,15 @@ class Users extends Controller {
     Redirect(routes.Images.list).withSession(request.session - "user_id")
   }
 
+  def favorite() = Action { implicit request =>
+    request.session.get("user_id") map { user_id: String =>
+      val ids = Favorite.list(user_id) map { _.image_id }
+      Ok(views.html.favorite(
+        Image.enumerate(ids),
+        User.select(request.session.get("user_id").getOrElse(""))
+      ))
+    } getOrElse {
+      Redirect(routes.Images.list()).flashing("error" -> "ログインしてください")
+    }
+  }
 }
