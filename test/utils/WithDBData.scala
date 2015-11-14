@@ -22,9 +22,6 @@ abstract class WithDbData(app: Application = FakeApplication()) extends WithAppl
   def setupData() {
     // setup data
     DB.withConnection { implicit c =>
-      SQL("delete from image").executeUpdate()
-      SQL("delete from user").executeUpdate()
-      SQL("delete from favorite").executeUpdate()      
 
       // testデータ投入
       SQL("""
@@ -59,9 +56,11 @@ abstract class WithDbData(app: Application = FakeApplication()) extends WithAppl
 
   def tearDown() {
     DB.withConnection { implicit c =>
-      SQL("TRUNCATE TABLE image").executeUpdate()
-      SQL("delete from user").executeUpdate()
-      SQL("delete from favorite").executeUpdate()
+      SQL("SET FOREIGN_KEY_CHECKS=0;").executeUpdate()
+      SQL("TRUNCATE TABLE image;").executeUpdate()
+      SQL("SET FOREIGN_KEY_CHECKS=1;").executeUpdate()      
+      SQL("delete from user;").executeUpdate()
+      SQL("delete from favorite;").executeUpdate()
     }
   }
 }
