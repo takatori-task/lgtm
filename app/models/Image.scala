@@ -46,6 +46,18 @@ object Image {
     }  
   }
 
+  def enumerate(ids: List[Long]): List[Image] = {
+    DB.withConnection { implicit c =>
+      SQL("""
+          SELECT * 
+          FROM image
+          WHERE id in ({ids})
+          """)
+        .on('ids -> ids)
+        .as(image *)
+    }
+  }
+
   val image = {
     get[Long]("id") ~
     get[String]("image_url") ~
