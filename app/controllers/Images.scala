@@ -77,4 +77,20 @@ class Images extends Controller {
       Redirect(routes.Images.show(id)).flashing("error" -> "ログインしてください")
     }
   }
+
+
+  def delete(id: Long) = Action { implicit request =>
+    request.session.get("user_id") map { user_id: String =>
+      try{
+        Image.delete(id, user_id)
+        Redirect(routes.Images.list())
+      } catch {
+        case e: IOException => {
+          Redirect(routes.Images.show(id)).flashing("error" -> "ログインしてください")
+        }
+      }
+    } getOrElse {
+      Redirect(routes.Images.show(id)).flashing("error" -> "ログインしてください")
+    }
+  }
 }

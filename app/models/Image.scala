@@ -46,6 +46,18 @@ object Image {
     }  
   }
 
+  def delete(id: Long, user_id: String): Unit = {
+    DB.withConnection { implicit c =>
+      SQL("""
+          DELETE 
+          FROM image
+          WHERE id = {id} AND user_id = {user_id}
+          """)
+        .on('id -> id, 'user_id -> user_id)
+        .executeUpdate()
+    }
+  }
+
   val image = {
     get[Long]("id") ~
     get[String]("image_url") ~
