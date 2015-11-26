@@ -7,7 +7,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
 import java.util.UUID
-import models.User
+import models.{Image,User}
 
 class Users extends Controller {
 
@@ -35,4 +35,13 @@ class Users extends Controller {
     Redirect(routes.Images.list).withSession(request.session - "user_id")
   }
 
+
+  def uploaded = Action { implicit request =>
+    request.session.get("user_id") match {
+      case Some(uid) => Ok(views.html.uploaded(
+        Image.fetch(uid), User.select(uid)
+      ))
+      case _ =>  Redirect(routes.Images.list).flashing("error" -> "loginしてください")
+    }
+  }
 }

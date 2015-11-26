@@ -46,7 +46,7 @@ class Images extends Controller {
          )
       }
       // DBに保存
-      Image.create(image.ref, request.session.get("user")) match {
+      Image.create(image.ref, request.session.get("user_id")) match {
         case Some(i) => Redirect(routes.Images.show(i))
         case _ => Redirect(routes.Images.upload).flashing(
           "error" -> "予期しないデータベース・エラーが発生しました - 指定されたレコードを書き込みできません。"
