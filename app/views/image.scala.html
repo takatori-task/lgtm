@@ -1,0 +1,15 @@
+@(image: Image, user: Option[User])
+
+@main("LGTM") {
+	@navbar(user)
+}{
+<div class="contents">
+	<div class="col-xs-6 col-md-4">
+		<img src=@image.image_url class="thumbnail" />
+	</div>
+	<div class="col-xs-6 col-md-8 form-group">
+		<label for="">Markdown</label>
+		<input type="url" class="form-control" id="image-markdown" value="![@image.id](@image.image_url)" readonly>
+	</div>	
+</div>	
+}

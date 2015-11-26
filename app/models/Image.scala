@@ -34,6 +34,19 @@ object Image {
     }
   }
 
+
+  def select(id: Long): Option[Image] = {
+    DB.withConnection { implicit c =>
+      SQL("""
+          SELECT * 
+          FROM image
+          WHERE id = {id}
+          """)
+        .on('id -> id)
+        .as(image.singleOpt)
+    }  
+  }
+
   def fetch(user_id: String): List[Image] = {
     DB.withConnection { implicit c =>
       SQL(
