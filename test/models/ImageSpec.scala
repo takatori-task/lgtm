@@ -84,6 +84,17 @@ class ImageSpec extends Specification with appWithTestDatabase {
     }
   }
 
+
+  "Image#enumerate" should {
+    "複数のidを指定してImageを複数取得できる" in new WithDbData(app) {
+      val images = Image.enumerate(List(1, 3, 5))
+      images must not be empty
+      images must have size 3
+      images(0).user_id must beSome.which { _ === "test" }
+      images(1).user_id must beNone
+    }
+  }
+
   "Image#fetch" should {
     "user_idを指定してImageのリストを取得できる" in new WithDbData(app) {
       val user_id = "test"
@@ -99,5 +110,4 @@ class ImageSpec extends Specification with appWithTestDatabase {
       images must be empty
     }
   }
-
 }

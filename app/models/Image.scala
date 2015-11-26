@@ -47,6 +47,18 @@ object Image {
     }  
   }
 
+  def enumerate(ids: List[Long]): List[Image] = {
+    DB.withConnection { implicit c =>
+      SQL("""
+          SELECT * 
+          FROM image
+          WHERE id in ({ids})
+          """)
+        .on('ids -> ids)
+        .as(image *)
+    }
+  }
+      
   def fetch(user_id: String): List[Image] = {
     DB.withConnection { implicit c =>
       SQL(

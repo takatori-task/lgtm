@@ -1,0 +1,25 @@
+@(images: List[Image], user: Option[User])(implicit message: Messages)
+
+@import helper._
+
+@main("LGTM") {
+	@navbar(user)	
+} {
+<div class="contents">
+	<div>
+		<div class="row">
+        @images.map { image =>
+	      <div class="col-xs-6 col-md-3">
+			<a href="/images/@image.id" class="thumbnail">
+			<img src=@image.image_url alt="..." class="thumbnail" onerror="this.src='@routes.Assets.versioned("images/no_image.png")'"/>
+			</a>
+	      </div>
+	    }
+		</div>
+	</div>
+</div>
+}
+
+
+
+
