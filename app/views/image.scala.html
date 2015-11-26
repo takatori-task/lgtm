@@ -1,4 +1,4 @@
-@(image: Image, user: Option[User])
+@(image: Image, user: Option[User], favorite: Boolean)
 
 @main("LGTM") {
 	@navbar(user)
@@ -10,6 +10,11 @@
 	<div class="col-xs-6 col-md-8 form-group">
 		<label for="">Markdown</label>
 		<input type="url" class="form-control" id="image-markdown" value="![@image.id](@image.image_url)" readonly>
+		@if(favorite) {
+			<a href="/unfavorite">unfavorite</a>
+		} else {
+			<a href="/images/@image.id/favorite">favorite</a>
+		}
 	</div>	
 </div>	
 }

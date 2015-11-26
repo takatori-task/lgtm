@@ -22,7 +22,7 @@ abstract class WithDbData(app: Application = FakeApplication()) extends WithAppl
   def setupData() {
     // setup data
     DB.withConnection { implicit c =>
-      SQL("delete from image").executeUpdate()
+
       // testデータ投入
       SQL("""
           INSERT INTO image (image_url, user_id)
@@ -42,13 +42,25 @@ abstract class WithDbData(app: Application = FakeApplication()) extends WithAppl
                  ('satoshi', 'takatori', 'http://placeimg.com/200/300/people'),
                  ('0', 'Fonda Gallagher', 'http://placeimg.com/200/300/people');
           """).execute()
+
+      SQL("""
+          INSERT INTO favorite (user_id, id)
+          VALUES ('satoshi', 1),
+                 ('1', 1),
+                 ('xx', 3),
+                 ('0', 2),
+                 ('satoshi', 5);
+          """).execute()
     }
   }
 
   def tearDown() {
     DB.withConnection { implicit c =>
-      SQL("TRUNCATE TABLE image").executeUpdate()
-      SQL("delete from user").executeUpdate()
+      SQL("SET FOREIGN_KEY_CHECKS=0;").executeUpdate()
+      SQL("TRUNCATE TABLE image;").executeUpdate()
+      SQL("SET FOREIGN_KEY_CHECKS=1;").executeUpdate()      
+      SQL("delete from user;").executeUpdate()
+      SQL("delete from favorite;").executeUpdate()
     }
   }
 }

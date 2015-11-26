@@ -1,4 +1,4 @@
-package lgtm.test.mode
+package lgtm.test.models
 
 import org.specs2.mutable.Specification
 import org.specs2.runner._

@@ -1,4 +1,4 @@
-# Images schema
+# Users schema
 
 # --- !Ups
 

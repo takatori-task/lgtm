@@ -12,19 +12,6 @@ import play.api.Play
 import models.User
 import lgtm.test.util.WithDbData
 
-
-trait appWithTestDatabase {
-
-  val config = Map(
-    "db.default.driver" -> "com.mysql.jdbc.Driver",
-    "db.default.url" -> sys.env.getOrElse("JDBC_DATABASE_URL", "jdbc:mysql://localhost/lgtm_test"),
-    "db.default.username" -> sys.env.getOrElse("JDBC_DATABASE_USER", "root")
-  )
-
-  def app: FakeApplication = FakeApplication(additionalConfiguration = config)
-}
-
-
 @RunWith(classOf[JUnitRunner])
 class UserSpec extends Specification with appWithTestDatabase {
 
