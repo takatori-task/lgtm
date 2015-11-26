@@ -11,6 +11,10 @@ GET     /images/:id                     controllers.Images.show(id: Long)
 GET     /upload                         controllers.Images.upload()
 POST    /save                           controllers.Images.save()
 GET     /images/$id<[0-9]+>/favorite    controllers.Images.favorite(id: Long)
+GET     /images/$id<[0-9]+>/unfavorite  controllers.Images.unfavorite(id: Long)
+
+# User
+GET     /user/uploaded              controllers.Users.uploaded()
 
 # Users
 GET     /favorite                       controllers.Users.favorite()

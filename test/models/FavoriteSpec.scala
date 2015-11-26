@@ -52,6 +52,13 @@ class FavoriteSpec extends Specification with appWithTestDatabase {
       val result = Favorite.list("sat")
       result must be empty
     }
+  }      
+
+  "Favorite#unRegister" should {
+    "お気に入りを一件削除できる" in new WithDbData {
+      Favorite.unRegister("satoshi", 5)
+      Favorite.check("satoshi", 5) must beFalse
+    }
   }
 }
 
