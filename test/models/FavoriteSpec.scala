@@ -39,6 +39,11 @@ class FavoriteSpec extends Specification with appWithTestDatabase {
     }
   }
 
-
+  "Favorite#unRegister" should {
+    "お気に入りを一件削除できる" in new WithDbData {
+      Favorite.unRegister("satoshi", 5)
+      Favorite.check("satoshi", 5) must beFalse
+    }
+  }
 }
 
