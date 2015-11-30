@@ -22,8 +22,18 @@ object Favorite {
     }
   }
 
-  def unRegister(): Unit = {
-
+  def unRegister(user_id: String, id: Long): Unit = {
+    DB.withConnection { implicit c =>
+      SQL("""
+          DELETE
+          FROM favorite
+          WHERE user_id = {user_id} AND id = {id}           
+          """)
+        .on(
+        'user_id -> user_id,
+         'id -> id
+      ).executeUpdate()
+    }
   }
 
 
@@ -48,11 +58,22 @@ object Favorite {
     }
   }
 
+  def list(user_id: String): List[Favorite] = {
+    DB.withConnection { implicit c =>
+      SQL("""
+          SELECT *
+          FROM favorite
+          WHERE user_id = {user_id}
+          """)
+        .on('user_id -> user_id)
+        .as(favorite *)
+    }
+  }
+
   val favorite = {
     get[String]("user_id") ~
     get[Long]("id") map {
       case user_id ~ id => Favorite(user_id, id)
     }
   }
-
 }

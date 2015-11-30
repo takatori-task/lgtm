@@ -34,6 +34,7 @@ object Image {
     }
   }
 
+
   def select(id: Long): Option[Image] = {
     DB.withConnection { implicit c =>
       SQL("""
@@ -55,6 +56,31 @@ object Image {
           """)
         .on('id -> id, 'user_id -> user_id)
         .executeUpdate()
+    }
+  }
+      
+  def enumerate(ids: List[Long]): List[Image] = {
+    DB.withConnection { implicit c =>
+      SQL("""
+          SELECT * 
+          FROM image
+          WHERE id in ({ids})
+          """)
+        .on('ids -> ids)
+        .as(image *)
+    }
+  }
+      
+  def fetch(user_id: String): List[Image] = {
+    DB.withConnection { implicit c =>
+      SQL(
+        """
+        SELECT *
+        FROM image
+        WHERE user_id = {user_id}
+        """)
+        .on('user_id -> user_id)
+        .as(image *)
     }
   }
 

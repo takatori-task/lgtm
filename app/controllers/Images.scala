@@ -49,7 +49,7 @@ class Images extends Controller {
          )
       }
       // DBに保存
-      Image.create(image.ref, request.session.get("user")) match {
+      Image.create(image.ref, request.session.get("user_id")) match {
         case Some(i) => Redirect(routes.Images.show(i))
         case _ => Redirect(routes.Images.upload).flashing(
           "error" -> "予期しないデータベース・エラーが発生しました - 指定されたレコードを書き込みできません。"
@@ -63,7 +63,6 @@ class Images extends Controller {
   }
 
   def favorite(id: Long) = Action { implicit request =>
-
     request.session.get("user_id") map { user: String =>
       try{
         Favorite.register(user, id)
@@ -78,12 +77,26 @@ class Images extends Controller {
     }
   }
 
-
   def delete(id: Long) = Action { implicit request =>
     request.session.get("user_id") map { user_id: String =>
       try{
         Image.delete(id, user_id)
         Redirect(routes.Images.list())
+      } catch {
+        case e: IOException => {
+          Redirect(routes.Images.show(id)).flashing("error" -> "ログインしてください")
+        }
+      }
+    } getOrElse {
+      Redirect(routes.Images.show(id)).flashing("error" -> "ログインしてください")
+    }
+  }        
+
+  def unfavorite(id: Long) = Action { implicit request =>
+    request.session.get("user_id") map { user: String =>
+      try{
+        Favorite.unRegister(user, id)
+        Redirect(routes.Images.show(id))
       } catch {
         case e: IOException => {
           Redirect(routes.Images.show(id)).flashing("error" -> "ログインしてください")

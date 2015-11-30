@@ -100,6 +100,32 @@ class ImageSpec extends Specification with appWithTestDatabase {
       images must have size 5
       Image.select(1) must beSome
       Image.select(1).get.user_id == "test"
-    }    
+    }
+  }
+
+  "Image#enumerate" should {
+    "複数のidを指定してImageを複数取得できる" in new WithDbData(app) {
+      val images = Image.enumerate(List(1, 3, 5))
+      images must not be empty
+      images must have size 3
+      images(0).user_id must beSome.which { _ === "test" }
+      images(1).user_id must beNone
+    }
+  }
+
+  "Image#fetch" should {
+    "user_idを指定してImageのリストを取得できる" in new WithDbData(app) {
+      val user_id = "test"
+      val images = Image.fetch(user_id)
+      images must not be empty
+      images must have size 2
+      images(0).image_url === "http://placeimg.com/300/480/any"
+      images(1).image_url === "http://placeimg.com/200/300/people"      
+    }
+
+    "user_idと一致するレコードが存在しなければ0件取得できる" in new WithDbData(app) {
+      val images = Image.fetch("")
+      images must be empty
+    }
   }
 }
