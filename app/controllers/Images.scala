@@ -1,10 +1,14 @@
 package controllers
 
+import java.io.IOException
 import play.api.Play
 import play.api.mvc.{Action, Controller}
-import models.Image
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+
+import models.Image
+import models.User
+import models.Favorite
 
 class Images extends Controller {
 
@@ -13,13 +17,26 @@ class Images extends Controller {
   }
 
   def list = Action { implicit request =>
-    Ok(views.html.index(Image.all()))
+    Ok(views.html.index(
+      Image.all(),
+      User.select(request.session.get("user_id").getOrElse(""))
+    ))
   }
 
-  def show(id: Long) = TODO
+  def show(id: Long) = Action { implicit request =>
+    val user = User.select(request.session.get("user_id").getOrElse(""))
+    val favorite = Favorite.check(request.session.get("user_id").getOrElse(""), id)
+    Image.select(id) match {
+      case Some(image) => Ok(views.html.image(image, user, favorite))
+      case _ => Ok(views.html.image404(user))
+    }
+  }
 
   def upload = Action { implicit request =>
-    Ok(views.html.upload(request.flash.get("error").getOrElse("")))
+    Ok(views.html.upload(
+      request.flash.get("error").getOrElse(""),
+      User.select(request.session.get("user_id").getOrElse(""))
+    ))
   }
 
   def save = Action(parse.multipartFormData) { implicit request =>
@@ -32,7 +49,7 @@ class Images extends Controller {
          )
       }
       // DBに保存
-      Image.create(image.ref, request.session.get("user")) match {
+      Image.create(image.ref, request.session.get("user_id")) match {
         case Some(i) => Redirect(routes.Images.show(i))
         case _ => Redirect(routes.Images.upload).flashing(
           "error" -> "予期しないデータベース・エラーが発生しました - 指定されたレコードを書き込みできません。"
@@ -42,6 +59,36 @@ class Images extends Controller {
       Redirect(routes.Images.upload).flashing(
         "error" -> "Missing file"
       )
+    }
+  }
+
+  def favorite(id: Long) = Action { implicit request =>
+    request.session.get("user_id") map { user: String =>
+      try{
+        Favorite.register(user, id)
+        Redirect(routes.Images.show(id))
+      } catch {
+        case e: IOException => {
+          Redirect(routes.Images.show(id)).flashing("error" -> "ログインしてください")
+        }
+      }
+    } getOrElse {
+      Redirect(routes.Images.show(id)).flashing("error" -> "ログインしてください")
+    }
+  }
+
+  def unfavorite(id: Long) = Action { implicit request =>
+    request.session.get("user_id") map { user: String =>
+      try{
+        Favorite.unRegister(user, id)
+        Redirect(routes.Images.show(id))
+      } catch {
+        case e: IOException => {
+          Redirect(routes.Images.show(id)).flashing("error" -> "ログインしてください")
+        }
+      }
+    } getOrElse {
+      Redirect(routes.Images.show(id)).flashing("error" -> "ログインしてください")
     }
   }
 }

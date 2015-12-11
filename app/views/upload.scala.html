@@ -1,6 +1,8 @@
-@(error: String)
+@(error: String, user: Option[User])
 
 @main("Upload"){
+	@navbar(user)
+}{
 	<div>
 	<p>@error</p>
 	<form action="@routes.Images.save", class="dropzone", id="image-dropzone", enctype="multipart/form-data">
