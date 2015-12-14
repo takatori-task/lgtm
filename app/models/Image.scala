@@ -47,6 +47,18 @@ object Image {
     }  
   }
 
+  def delete(id: Long, user_id: String): Unit = {
+    DB.withConnection { implicit c =>
+      SQL("""
+          DELETE 
+          FROM image
+          WHERE id = {id} AND user_id = {user_id}
+          """)
+        .on('id -> id, 'user_id -> user_id)
+        .executeUpdate()
+    }
+  }
+      
   def enumerate(ids: List[Long]): List[Image] = {
     DB.withConnection { implicit c =>
       SQL("""

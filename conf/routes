@@ -11,12 +11,11 @@ GET     /images/:id                     controllers.Images.show(id: Long)
 GET     /upload                         controllers.Images.upload()
 POST    /save                           controllers.Images.save()
 GET     /images/$id<[0-9]+>/favorite    controllers.Images.favorite(id: Long)
+GET     /images/$id<[0-9]+>/delete      controllers.Images.delete(id: Long)
 GET     /images/$id<[0-9]+>/unfavorite  controllers.Images.unfavorite(id: Long)
 
-# User
-GET     /user/uploaded              controllers.Users.uploaded()
-
 # Users
+GET     /user/uploaded                  controllers.Users.uploaded()
 GET     /favorite                       controllers.Users.favorite()
 
 # Authoraization
