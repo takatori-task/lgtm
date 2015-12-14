@@ -84,6 +84,24 @@ class ImageSpec extends Specification with appWithTestDatabase {
     }
   }
 
+  "Image#delete" should {
+    "idとuser_idを指定して一件削除できる" in new WithDbData(app) {
+      Image.delete(1, "test")
+      val images = Image.all()
+      print(images)
+      images must have size 4
+      Image.select(1) must beNone
+    }
+
+    "idは一致するがuser_idが異なる場合削除しない" in new WithDbData(app) {
+      Image.delete(1, "takatori")
+      val images = Image.all()
+      print(images)
+      images must have size 5
+      Image.select(1) must beSome
+      Image.select(1).get.user_id == "test"
+    }
+  }
 
   "Image#enumerate" should {
     "複数のidを指定してImageを複数取得できる" in new WithDbData(app) {
