@@ -19,9 +19,9 @@ libraryDependencies ++= Seq(
   "org.webjars" %% "webjars-play" % "2.4.0-1",
   "org.webjars.bower" % "dropzone" % "4.0.1",
   "org.webjars.bower" % "octicons" % "2.2.3",
-  "net.kaliber" %% "play-s3" % "7.0.0",
   "org.webjars" % "jquery" % "2.1.4",
-  "org.webjars" % "bootstrap" % "3.3.5"
+  "org.webjars" % "bootstrap" % "3.3.5",
+  "com.github.seratch" %% "awscala" % "0.5.+"
 )
 
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
@@ -35,3 +35,4 @@ routesGenerator := InjectedRoutesGenerator
 
 
 fork in run := true
+

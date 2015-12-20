@@ -6,18 +6,25 @@ import play.api.db.DB
 import play.api.Play.current
 import play.api.Play
 import play.api.libs.Files.TemporaryFile
+import awscala._, s3._
 
 case class Image(id: Long, image_url: String, user_id: Option[String])
 
 object Image {
 
   def uuid = java.util.UUID.randomUUID.toString
+  implicit val s3 = S3.at(Region.Tokyo)
+  val bucket = s3.bucket("lgtm-tokyo").get // TODO: Noneの場合の処理
+
+  def uploadS3(name: String, file: File) = {
+    bucket.putAsPublicRead(name, file)
+  }
 
   def create(image: TemporaryFile, user_id: Option[String]): Option[Long] = {
-    import java.io.File
 
-    val image_url = Play.current.path.getPath() + current.configuration.getString("file.upload.directory").get + uuid + ".jpg"
-    image.moveTo(new File(image_url), replace=true)// ファイル保存
+    val name = uuid + ".jpeg"
+    val image_url = "https://s3-ap-northeast-1.amazonaws.com/lgtm-tokyo/" + name
+    uploadS3(name, image.file)
 
     DB.withConnection { implicit c =>
       val id: Option[Long] = SQL("insert into image(image_url, user_id) values ({image_url}, {user_id})").on(
