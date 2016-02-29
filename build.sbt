@@ -20,7 +20,7 @@ libraryDependencies ++= Seq(
   "org.webjars.bower" % "dropzone" % "4.0.1",
   "org.webjars.bower" % "octicons" % "2.2.3",
   "org.webjars" % "jquery" % "2.1.4",
-  "org.webjars" % "bootstrap" % "3.3.5",
+  "org.webjars" % "normalize.css" % "3.0.2",
   "com.github.seratch" %% "awscala" % "0.5.+"
 )
 
