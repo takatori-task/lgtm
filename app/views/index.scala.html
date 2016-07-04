@@ -1,10 +1,8 @@
-@(images: List[Image], user: Option[User])(implicit message: Messages)
+@(images: List[Image], user: Option[User])
 
 @import helper._
 
-@main("LGTM") {
-	@navbar(user)	
-} {
+@main("LGTM"){ @navbar(user) }{
 <div class="contents">
 	<div>
 		<div class="row">
@@ -19,5 +17,3 @@
 	</div>
 </div>
 }
-
-

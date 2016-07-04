@@ -2,25 +2,18 @@ package controllers
 
 import java.io.IOException
 import models.{Favorite, Image, User}
-import play.api.Play
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, ActionBuilder, ActionTransformer, Controller, Request, WrappedRequest}
 import scala.concurrent.Future
 
 class UserRequest[A](val user: Option[User], request: Request[A]) extends WrappedRequest[A](request)
 
 object UserAction extends ActionBuilder[UserRequest] with ActionTransformer[Request, UserRequest] {
-  def transform[A](request: Request[A]) = Future.successful {
-    new UserRequest(User.select(request.session.get("user_id").getOrElse("")), request)
-  }
+  def transform[A](request: Request[A]) = Future.successful(new UserRequest(User.select(request.session.get("user_id").getOrElse("")), request))
 }
 
 class Images extends Controller {
 
-  def index = Action {
-    Redirect(routes.Images.list)
-  }
+  def index = Action(Redirect(routes.Images.list))
 
   def list = UserAction { implicit request =>
     Ok(views.html.index(Image.all(), request.user))
