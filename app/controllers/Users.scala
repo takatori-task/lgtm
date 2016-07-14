@@ -2,11 +2,8 @@ package controllers
 
 import play.api._
 import play.api.mvc._
-import play.api.data._
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-
 import java.util.UUID
+
 import models.{Image,User,Favorite}
 
 
