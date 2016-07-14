@@ -3,18 +3,20 @@
 @main("LGTM") {
 	@navbar(user)
 }{
-<div class="contents">
-	<div class="col-xs-6 col-md-4">
-		<img src=@image.image_url class="thumbnail" />
+<section class="image-detail">
+	<div class="info">
+		<input type="text" class="markdown" value="![@image.id](@image.image_url)" readonly>
+		<div class="buttons">
+			<button class="button copy">copy<i class="fa fa-clipboard"></i></button>
+			@if(favorite) {
+				<a class="button unfavorite" href="/images/@image.id/unfavorite">unfavorite<i class="fa fa-star-o"></i></a>
+			} else {
+				<a class="button favorite" href="/images/@image.id/favorite">favorite<i class="fa fa-star"></i></a>
+			}
+		</div>
 	</div>
-	<div class="col-xs-6 col-md-8 form-group">
-		<label for="">Markdown</label>
-		<input type="url" class="form-control" id="image-markdown" value="![@image.id](@image.image_url)" readonly>
-		@if(favorite) {
-			<a href="/images/@image.id/unfavorite">unfavorite</a>
-		} else {
-			<a href="/images/@image.id/favorite">favorite</a>
-		}
-	</div>	
-</div>	
+	<div class="image-wrapper">
+		<img class="image" src=@image.image_url />
+	</div>
+</section>	
 }
